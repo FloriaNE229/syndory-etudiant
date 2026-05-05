@@ -11,9 +11,17 @@ import 'package:syndory_etudiant/screens/justificatif/justificatifs_tab.dart';
 import 'package:syndory_etudiant/screens/matieres/matieres_screen.dart';
 import 'package:syndory_etudiant/screens/profile/profile_screen.dart';
 import 'package:syndory_etudiant/screens/resources/resources_page.dart';
+import 'package:syndory_etudiant/screens/profil/profile_page.dart';
+import 'package:syndory_etudiant/profile/controllers/profile_controller.dart';
+import 'package:syndory_etudiant/screens/announcements/announcements_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ProfileController(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -48,7 +56,7 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.bgPrimary,
       body: IndexedStack(
         index: _currentIndex,
@@ -68,19 +76,18 @@ class _AppShellState extends State<AppShell> {
   }
 }
 
-
 /// Onglet Assiduité : bascule entre écran vide et écran rempli.
-class _AttendanceTab extends StatefulWidget {
+class AttendanceTab extends StatefulWidget {
   final int navIndex;
   final ValueChanged<int> onNavTap;
 
-  const _AttendanceTab({required this.navIndex, required this.onNavTap});
+  const AttendanceTab({required this.navIndex, required this.onNavTap});
 
   @override
-  State<_AttendanceTab> createState() => _AttendanceTabState();
+  State<AttendanceTab> createState() => _AttendanceTabState();
 }
 
-class _AttendanceTabState extends State<_AttendanceTab> {
+class _AttendanceTabState extends State<AttendanceTab> {
   bool _hasData = false;
 
   @override
@@ -96,48 +103,6 @@ class _AttendanceTabState extends State<_AttendanceTab> {
       navIndex: widget.navIndex,
       onNavTap: widget.onNavTap,
       onRefresh: () => setState(() => _hasData = true),
-    );
-  }
-}
-
-/// Placeholder pour les onglets non encore implémentés.
-class _PlaceholderPage extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final int navIndex;
-  final ValueChanged<int> onNavTap;
-
-  const _PlaceholderPage({
-    required this.label,
-    required this.icon,
-    required this.navIndex,
-    required this.onNavTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgPrimary,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: AppColors.textMuted, size: 48),
-            const SizedBox(height: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: AppBottomNavBar(
-        currentIndex: navIndex,
-        onTap: onNavTap,
-      ),
     );
   }
 }

@@ -22,7 +22,7 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   bool _isLoading = true;
   bool _hasLoaded = false;
-  int _viewIndex = 1;
+  int _viewIndex = 0;
   SubjectTag _selectedTag = SubjectTag.all;
   DateTime _weekStart = DateTime(2024, 10, 14);
 
@@ -100,7 +100,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgPrimary,
-      appBar: _buildAppBar(),
+      appBar: AppNavBarNoReturn(title: "Calendrier", onNotificationPressed: () {  },),
       body: _isLoading
           ? const CalendarLoadingSkeleton()
           : Column(

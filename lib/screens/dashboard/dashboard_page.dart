@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syndory_etudiant/components/appBottomNavbar.dart';
 import 'package:syndory_etudiant/components/appTheme.dart';
 import 'package:syndory_etudiant/mocks/dashboardMockData.dart';
+import 'package:syndory_etudiant/components/dashboard/empty_state_card.dart';
 import 'package:syndory_etudiant/components/dashboard/active_session_banner.dart';
 import 'package:syndory_etudiant/components/dashboard/next_course_card.dart';
 import 'package:syndory_etudiant/components/dashboard/timetable_section.dart';
@@ -26,25 +27,43 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   @override
-Widget build(BuildContext context) {
-  final activeSession = MockData.activeSession;
-  final nextCourse = MockData.nextCourse;
-  final user = MockData.currentUser;
+  Widget build(BuildContext context) {
+    final activeSession = MockData.activeSession;
+    final nextCourse = MockData.nextCourse;
+    final user = MockData.currentUser;
 
-  // ✅ Plus de Scaffold ici — retourne directement le contenu
-  return Column(
-    children: [
-      Expanded(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            _buildHeader(user),
-            if (activeSession != null) const ActiveSessionBanner(),
-            if (nextCourse != null) ...[
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              _buildHeader(user, nextCourse),
+              
+              if (activeSession != null) const ActiveSessionBanner(),
+              
+              // Zone de contenu dynamique selon le prochain cours
+              if (nextCourse != null) ...[
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    children: [
+                      Expanded(child: _PlaceholderStats(title: "PRÉSENCE", value: "85%")),
+                      SizedBox(width: 15),
+                      Expanded(child: _PlaceholderStats(title: "DEVOIRS", value: "3")),
+                    ],
+                  ),
+                ),
+                NextCourseCard(courseData: nextCourse),
+                const TimetableSection(),
+              ] else ...[
+                const EmptyStateCard(),
+              ],
+
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
                 child: Text(
-                  'À suivre',
+                  "Annonces",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -52,24 +71,37 @@ Widget build(BuildContext context) {
                   ),
                 ),
               ),
-              NextCourseCard(courseData: nextCourse),
+              AnnouncementsSection(
+                onNavTap: widget.onNavTap!,
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Text(
+                  "Documents récents",
+                  style: TextStyle(
+                    fontSize: 18, 
+                    fontWeight: FontWeight.bold, 
+                    color: Color(0xFF052A36)
+                  ),
+                ),
+              ),
+              const RecentDocumentsSection(),
+              
+               StatsGridSection(
+                  navIndex: widget.navIndex,
+                  onNavTap: widget.onNavTap!,
+                ),
+              const SizedBox(height: 30),
             ],
-            const TimetableSection(),
-            const StatsGridSection(),
-            const AnnouncementsSection(),
-            const RecentDocumentsSection(),
-            const SizedBox(height: 30),
-          ],
+          ),
         ),
-      ),
-      // ✅ NavBar en bas de la colonne
-      AppBottomNavBar(
-        currentIndex: widget.navIndex,
-        onTap: widget.onNavTap,
-      ),
-    ],
-  );
-}
+        AppBottomNavBar(
+          currentIndex: widget.navIndex,
+          onTap: widget.onNavTap,
+        ),
+      ],
+    );
+  }
 
   Widget _buildHeader(Map<String, dynamic> user) {
     final String nom = user['nom'] ?? '';
