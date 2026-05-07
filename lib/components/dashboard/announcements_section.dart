@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:syndory_etudiant/screens/annonces/annonces_screen.dart';
 
 class AnnouncementsSection extends StatelessWidget {
   // ✅ On ajoute la fonction de navigation en paramètre
   final ValueChanged<int> onNavTap;
+  final List<Map<String, dynamic>> annonces;
 
   const AnnouncementsSection({
     super.key, 
     required this.onNavTap, // Requis pour changer d'onglet
+    required this.annonces,
   });
 
   @override
@@ -33,28 +34,39 @@ class AnnouncementsSection extends StatelessWidget {
               
               TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (_) => const AnnonceScreen(),
-                  ));
+                  onNavTap(7);
                 },
-                child: const Text('Voir tout', style: TextStyle(color: Colors.orange)),
+                child: const Text(
+                  'Voir tout',
+                  style: TextStyle(color: Color(0xFFF06424), fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),
 
           const SizedBox(height: 10),
 
-          _buildAnnouncementItem(
-            title: "Ouverture des inscriptions au forum carrière",
-            time: "Aujourd'hui, 08h30",
-            isNew: true,
-          ),
-          const SizedBox(height: 15),
-          _buildAnnouncementItem(
-            title: "Mise à jour des horaires de la bibliothèque",
-            time: "Hier, 14h15",
-            isNew: false,
-          ),
+          if (annonces.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(
+                child: Text(
+                  "Aucune annonce pour le moment",
+                  style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+                ),
+              ),
+            )
+          else
+            ...annonces.map((annonce) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: _buildAnnouncementItem(
+                  title: annonce['titre'] ?? 'Annonce',
+                  time: annonce['date'] ?? '',
+                  isNew: annonce['est_nouveau'] ?? false,
+                ),
+              );
+            }).toList(),
         ],
       ),
     );

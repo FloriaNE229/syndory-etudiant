@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syndory_etudiant/components/appTheme.dart';
+import 'package:syndory_etudiant/components/apptheme.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -13,9 +13,8 @@ class AppBottomNavBar extends StatelessWidget {
     Icons.person_off_rounded,      // 2 Absences / Justificatifs
     Icons.fact_check_rounded,      // 3 Assiduité
     Icons.menu_book_rounded,       // 4 Mes Matières
-    Icons.assignment_rounded,      // 5 Devoirs
     Icons.folder_open_rounded,     // 6 Ressources
-    Icons.person_rounded,          // 7 Profil
+    Icons.campaign_rounded,        // 7 Annonces
   ];
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:syndory_etudiant/components/appTheme.dart';
+import 'package:syndory_etudiant/components/apptheme.dart';
+import 'package:syndory_etudiant/screens/matieres/matiere_detail_screen.dart';
 
 /// Carte représentant une matière.
 class MatiereCard extends StatelessWidget {

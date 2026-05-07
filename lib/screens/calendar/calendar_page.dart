@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syndory_etudiant/components/appBottomNavbar.dart';
-import 'package:syndory_etudiant/components/appTheme.dart';
+import 'package:syndory_etudiant/components/appNavbarNoReturn.dart';
+import 'package:syndory_etudiant/components/apptheme.dart';
 import 'calendar_data.dart';
 import 'calendar_widgets.dart';
 
@@ -100,7 +101,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgPrimary,
-      appBar: AppNavBarNoReturn(title: "Calendrier", onNotificationPressed: () {  },),
+      appBar: AppNavBarNoReturn(title: "Calendrier"),
       body: _isLoading
           ? const CalendarLoadingSkeleton()
           : Column(

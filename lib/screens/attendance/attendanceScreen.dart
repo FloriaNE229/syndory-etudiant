@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syndory_etudiant/components/appBottomNavbar.dart';
 import 'package:syndory_etudiant/components/appNavbarNoReturn.dart';
-import 'package:syndory_etudiant/components/appTheme.dart';
+import 'package:syndory_etudiant/components/apptheme.dart';
 import 'package:syndory_etudiant/components/attendance/courseAttendanceCard.dart';
 import 'package:syndory_etudiant/components/attendance/historyItem.dart';
 import 'package:syndory_etudiant/components/attendance/progressring.dart';
@@ -36,15 +36,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       // CONFIGURATION DE LA NAVBAR ICI
       appBar: AppNavBarNoReturn(
         title: 'Assiduité',
-        onNotificationPressed: () {
-          print("Tentative de navigation vers Notifications");
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NotificationsScreen(),
-            ),
-          );
-        },
       ),
       body: SafeArea(
         child: AnimatedSwitcher(
